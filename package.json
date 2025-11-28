@@ -6,9 +6,9 @@
   "scripts": {
     "msw:init": "msw init public/ --save",
     "dev": "pnpm msw:init && vite",
-    "build": "tsc && vite build",
+    "build": "pnpm msw:init && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "pnpm msw:init && vite preview"
   },
   "dependencies": {
     "react": "^19.2.0",
