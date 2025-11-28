@@ -13,6 +13,34 @@ async function enableMocking() {
   });
 }
 
+function setupListeners() {
+  document.addEventListener("visibilitychange", () => {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(
+      `[${timestamp}] ⚡️ Document visibility changed: ${document.visibilityState}`
+    );
+  });
+
+  navigator.serviceWorker.controller?.addEventListener(
+    "statechange",
+    (event) => {
+      const timestamp = new Date().toLocaleTimeString();
+      console.log(
+        `[${timestamp}] ⚡️ Service Worker state changed: ${
+          (event.target as ServiceWorker).state
+        }`
+      );
+    }
+  );
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(
+      `[${timestamp}] ⚡️ Service Worker controller changed: ${navigator.serviceWorker.controller?.state}`
+    );
+  });
+}
+
 function renderApp() {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
@@ -21,4 +49,6 @@ function renderApp() {
   );
 }
 
-enableMocking().then(() => renderApp());
+enableMocking()
+  .then(setupListeners)
+  .then(() => renderApp());
