@@ -13,14 +13,20 @@ const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
 const activeClientIds = new Set()
 
 addEventListener('install', function () {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp} MSW event]: install`)
   self.skipWaiting()
 })
 
 addEventListener('activate', function (event) {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp} MSW event]: activate`)
   event.waitUntil(self.clients.claim())
 })
 
 addEventListener('message', async function (event) {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp} MSW event]: message`, event.data)
   const clientId = Reflect.get(event.source || {}, 'id')
 
   if (!clientId || !self.clients) {
@@ -89,6 +95,8 @@ addEventListener('message', async function (event) {
 })
 
 addEventListener('fetch', function (event) {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp} MSW event]: fetch. activeClientIds: [${[...activeClientIds].join(", ")}]`, event)
   const requestInterceptedAt = Date.now()
 
   // Bypass navigation requests.

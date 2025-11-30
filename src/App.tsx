@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [status, setStatus] = useState<unknown>(null);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(checkStatus, 5010);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const checkStatus = async () => {
     try {
@@ -34,9 +39,11 @@ function App() {
           ✅ Check the status of the MSW again. See the response restored.
         </li>
       </ol>
-      <button onClick={checkStatus}>Check status</button>
       <pre>{JSON.stringify(status, null, 2)}</pre>
-      <button onClick={fixMswState}>🔧 Fix MSW </button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <button onClick={checkStatus}>Check status</button>
+        <button onClick={fixMswState}>🔧 Fix MSW </button>
+      </div>
     </main>
   );
 }

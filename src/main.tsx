@@ -17,7 +17,9 @@ function setupListeners() {
   document.addEventListener("visibilitychange", () => {
     const timestamp = new Date().toLocaleTimeString();
     console.log(
-      `[${timestamp}] ⚡️ Document visibility changed: ${document.visibilityState}`
+      `[${timestamp}] ⚡️ Document visibility changed: ${
+        document.visibilityState
+      } ${document.hidden ? "🙈" : "👀"}`
     );
   });
 
